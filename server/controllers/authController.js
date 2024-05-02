@@ -3,17 +3,22 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
+// route for Admin signup
 exports.registerAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    //checking all credentials are available
     if (email == null || password == null) {
-      return res.status(400).json({ msg: "Missing Crendentials" });
+      return res.status(400).json({ msg: "Missing Credentials" });
     }
 
+    //validating email format
     if (!validator.isEmail(email)) {
       return res.status(400).json({ msg: "Email is not vaild" });
     }
 
+    //checking if admin already exist with give email
     const userExists = await admin.findOne({
       where: {
         email,
@@ -24,6 +29,7 @@ exports.registerAdmin = async (req, res) => {
       return res.status(400).json({ msg: "Email id Already Exists" });
     }
 
+    //creating admin
     await admin.create({
       email,
       password: await bcrypt.hash(password, 10),
@@ -36,17 +42,22 @@ exports.registerAdmin = async (req, res) => {
   }
 };
 
+// route for handling login of Admin
 exports.signAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    //checking all credentials are available
     if (email == null || password == null) {
       return res.status(400).json({ msg: "Missing Crendentials" });
     }
 
+    //validating email format
     if (!validator.isEmail(email)) {
       return res.status(400).json({ msg: "Email is not vaild" });
     }
+
+    //checking whether the user registered
     const user = await admin.findOne({
       where: {
         email,
@@ -56,6 +67,7 @@ exports.signAdmin = async (req, res) => {
       return res.status(404).json({ msg: "Email id Does not exists" });
     }
 
+    // checking password
     const passwordVaild = await bcrypt.compare(password, user.password);
     if (!passwordVaild) {
       return res
@@ -63,6 +75,7 @@ exports.signAdmin = async (req, res) => {
         .json({ msg: "Invaild Email and password Combination" });
     }
 
+    // generating jwt token and sending it to the user
     const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
       expiresIn: process.env.JWT_EXPIRATION,
     });

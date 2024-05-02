@@ -15,26 +15,30 @@ exports.addEmployee = async (req, res) => {
   try {
     const { id, name, email } = req.body;
 
+    //checking all credentials are available
     if (id == null || name == null || email == null) {
       return res.status(400).json({ msg: "Missing Crendentials" });
     }
 
+    //validating email format
     if (!validator.isEmail(email)) {
       return res.status(400).json({ msg: "Email is not vaild" });
     }
 
-    const result = await Employee.findOne({
+    //checking whether the employee already exists
+    const employeeExists = await Employee.findOne({
       where: {
         empId: id,
       },
     });
 
-    if (result != null) {
+    if (employeeExists != null) {
       return res
         .status(400)
         .json({ msg: "Employee with this Id already Exists" });
     }
 
+    //creating employee record
     await Employee.create({
       empId: id,
       empName: name,
@@ -61,25 +65,30 @@ exports.addEmployee = async (req, res) => {
 exports.updateEmployee = async (req, res) => {
   const { id, name, email } = req.body;
 
+  //checking all credentials are available
   if (id == null || name == null || email == null) {
     return res.status(400).json({ msg: "Missing Crendentials" });
   }
 
+  //validating email format
   if (!validator.isEmail(email)) {
     return res.status(400).json({ msg: "Email is not vaild" });
   }
-  const record = await Employee.findOne({
+
+  //checking whether the employee already exists
+  const employeeExists = await Employee.findOne({
     where: {
       empId: id,
     },
   });
 
-  if (record == null) {
+  if (employeeExists == null) {
     return res
       .status(400)
       .json({ msg: "Employee with given Id does not exists" });
   }
 
+  // updating employee record
   await Employee.update(
     { empEmail: email, empName: name },
     {
@@ -104,16 +113,18 @@ exports.updateEmployee = async (req, res) => {
 //route for deleting particular employee with ID
 exports.deleteEmployee = async (req, res) => {
   const id = req.query.id;
+
+  //checking all credentials are available
   if (id == null) {
     return res.status(400).json({ msg: "Missing Crendentials" });
   }
-  const result = await Employee.findOne({
+  const employeeExists = await Employee.findOne({
     where: {
       empId: id,
     },
   });
 
-  if (result == null) {
+  if (employeeExists == null) {
     return res
       .status(400)
       .json({ msg: "Employee with this Id does not Exists" });
