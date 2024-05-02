@@ -1,6 +1,6 @@
 # Attendance Management API
 
-![Attendance-backend Docker Image](https://hub.docker.com/repository/docker/logeshlogi/attendance-backend/general)
+(https://hub.docker.com/repository/docker/logeshlogi/attendance-backend/general)
 
 ## Description
 
