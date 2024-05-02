@@ -1,15 +1,27 @@
-This is Attendance Management API Image.This image also requires database to store the data you can either use local database or can use postgres image.In this backend Api i have used node and express backend framework and postgres with sequelize ORM for database.
+# Attendance Management API
 
-Docker Image: docker pull logeshlogi/attendance-backend
-Docker hub Image URL: https://hub.docker.com/r/logeshlogi/attendance-backend
+![Attendance-backend Docker Image](https://hub.docker.com/repository/docker/logeshlogi/attendance-backend/general)
 
-Below are Mandatory Env variables that are need to configured while running the container.
+## Description
 
-1.  DB_NAME - This refer to Database name
-2.  DOCKER_DB_HOST - This refers to Database host. 'localhost' if you are using local database and '<database_container_name>' if
-    you are running database as container.
-3.  DB_USER - This refers to database user.
-4.  DB_PASSWORD - This refers to database password.
-5.  PORT - This refers to port the backend runs on docker container.
-6.  SECRET_KEY - This refers to JWT secret key.
-7.  JWT_EXPIRATION - This refers to JWT Expiration time.
+This API manages attendance records for users. It is built with Node.js and Express backend framework, and PostgreSQL with Sequelize ORM for the database.
+
+## Installation
+
+To run the API, follow these steps:
+
+1. Pull the Docker image:
+   command: docker pull logeshlogi/attendance-backend
+
+2. Set up the required environment variables:
+
+- `DB_NAME`: Database name
+- `DOCKER_DB_HOST`: Database host (`localhost` if using a local database, `<database_container_name>` if using a container)
+- `DB_USER`: Database user
+- `DB_PASSWORD`: Database password
+- `PORT`: Port the backend runs on in the Docker container
+- `SECRET_KEY`: JWT secret key
+- `JWT_EXPIRATION`: JWT expiration time
+- `DIALECT`: Dialect used for Sequelize configuration
+
+3. Run the Docker container with the appropriate environment variables configured.
