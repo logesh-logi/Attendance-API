@@ -13,10 +13,12 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// testing route
 app.get("/hello", (req, res) => {
   res.send("hello world");
 });
 
+// middlewares
 app.use("/api/auth", authRoutes);
 app.use("/api", verifyToken, routes);
 
