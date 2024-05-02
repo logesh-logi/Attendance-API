@@ -1,6 +1,6 @@
-const { where } = require("sequelize");
 const Attendance = require("../models/Attendance");
 const Employee = require("../models/Employee");
+const validator = require("validator");
 
 // route for getting all employee details
 exports.listAllEmployees = async (req, res) => {
@@ -15,6 +15,14 @@ exports.addEmployee = async (req, res) => {
   try {
     const { id, name, email } = req.body;
 
+    if (id == null || name == null || email == null) {
+      return res.status(400).json({ msg: "Missing Crendentials" });
+    }
+
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({ msg: "Email is not vaild" });
+    }
+
     const result = await Employee.findOne({
       where: {
         empId: id,
@@ -27,7 +35,7 @@ exports.addEmployee = async (req, res) => {
         .json({ msg: "Employee with this Id already Exists" });
     }
 
-    const record = await Employee.create({
+    await Employee.create({
       empId: id,
       empName: name,
       empEmail: email,
@@ -52,6 +60,14 @@ exports.addEmployee = async (req, res) => {
 // route for updating Employee Details
 exports.updateEmployee = async (req, res) => {
   const { id, name, email } = req.body;
+
+  if (id == null || name == null || email == null) {
+    return res.status(400).json({ msg: "Missing Crendentials" });
+  }
+
+  if (!validator.isEmail(email)) {
+    return res.status(400).json({ msg: "Email is not vaild" });
+  }
   const record = await Employee.findOne({
     where: {
       empId: id,
@@ -88,6 +104,9 @@ exports.updateEmployee = async (req, res) => {
 //route for deleting particular employee with ID
 exports.deleteEmployee = async (req, res) => {
   const id = req.query.id;
+  if (id == null) {
+    return res.status(400).json({ msg: "Missing Crendentials" });
+  }
   const result = await Employee.findOne({
     where: {
       empId: id,

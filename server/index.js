@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./Routes/routes");
 const sequelize = require("./config/db");
+const authRoutes = require("./Routes/authRoutes");
+const { verifyToken } = require("./middleware/VerifyToken");
 require("dotenv").config();
 
 const app = express();
@@ -15,7 +17,8 @@ app.get("/hello", (req, res) => {
   res.send("hello world");
 });
 
-app.use("/api", routes);
+app.use("/api/auth", authRoutes);
+app.use("/api", verifyToken, routes);
 
 //error handling with global catch
 app.use((err, req, res, next) => {

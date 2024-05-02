@@ -5,6 +5,9 @@ const Emp = require("../models/Employee");
 exports.addAttendance = async (req, res) => {
   try {
     const { date, id, status } = req.body;
+    if (date == null || id == null || status == null) {
+      return res.status(400).json({ msg: "Missing Crendentials" });
+    }
     const emp = await Emp.findOne({
       where: {
         empId: id,
@@ -32,12 +35,7 @@ exports.addAttendance = async (req, res) => {
     }
 
     // Checking for Vaild Date
-    if (
-      id == undefined ||
-      date == undefined ||
-      status == undefined ||
-      new Date(date) > new Date()
-    ) {
+    if (new Date(date) > new Date()) {
       return res.status(400).json({ msg: "Invalid Information" });
     }
 
@@ -78,6 +76,9 @@ exports.listAllAttendence = async (req, res) => {
 exports.updateAttendance = async (req, res) => {
   try {
     const { id, status, date } = req.body;
+    if (date == null || id == null || status == null) {
+      return res.status(400).json({ msg: "Missing Crendentials" });
+    }
     const record = Attendance.findOne({
       where: {
         EmpId: id,
@@ -113,6 +114,9 @@ exports.updateAttendance = async (req, res) => {
 // Route for deleting particular record in Attendance
 exports.deleteAttendance = async (req, res) => {
   const { date, id } = req.query;
+  if (date == null || id == null) {
+    return res.status(400).json({ msg: "Missing Crendentials" });
+  }
   const record = await Attendance.findOne({
     where: {
       date,
@@ -138,6 +142,9 @@ exports.deleteAttendance = async (req, res) => {
 // route for getting Attendance Detail of particular employee
 exports.getEmployeeAttendance = async (req, res) => {
   const id = req.params.id;
+  if (id == null) {
+    return res.status(400).json({ msg: "Missing Crendentials" });
+  }
   const empRecord = await Emp.findOne({
     where: {
       empId: id,

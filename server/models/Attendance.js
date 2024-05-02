@@ -7,15 +7,15 @@ const Emp = require("./Employee");
 const Attendance = sequelize.define("Attendance", {
   status: {
     type: DataTypes.STRING,
-    allownull: false,
+    allowNull: false,
   },
   date: {
     type: DataTypes.DATEONLY,
-    allownull: false,
+    allowNull: false,
   },
   EmpId: {
     type: DataTypes.INTEGER,
-    allownull: false,
+    allowNull: false,
     references: {
       model: Emp,
       key: "empId",
