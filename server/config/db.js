@@ -7,7 +7,7 @@ const db = new sequelize(
   process.env.DB_PASSWORD,
   {
     host: process.env.DOCKER_DB_HOST,
-    dialect: "postgres",
+    dialect: process.env.DIALECT,
   }
 );
 

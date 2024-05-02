@@ -28,6 +28,7 @@ services:
       - PORT=$PORT
       - SECRET_KEY=$SECRET_KEY
       - JWT_EXPIRATION=$JWT_EXPIRATION
+      - DIALECT=$DIALECT
     ports:
       - $PORT:$PORT
     depends_on:
